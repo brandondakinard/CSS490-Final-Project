@@ -47,23 +47,23 @@ acoustic_features = readtable("/Users/beedak/Documents/MATLAB/css490/FinalProjec
 clear opts
 
 %% Calculate the means of the albums acoustic features and the albums rank
-modified_acoustic_features = acoustic_features(:,{'album', 'acousticness', 'danceability', 'duration_ms', 'liveness', 'loudness','tempo'});
+modified_acoustic_features = acoustic_features(:,{'album', 'artist', 'danceability', 'duration_ms', 'liveness','tempo'});
 
-means_acoustic_features = grpstats(modified_acoustic_features, 'album');
+means_acoustic_features = grpstats(modified_acoustic_features, {'album', 'artist'});
 
-modified_albums = albums(:,{'album', 'rank'});
+modified_albums = albums(:,{'album', 'artist', 'rank'});
 
-means_albums = grpstats(modified_albums, 'album');
+means_albums = grpstats(modified_albums, {'album', 'artist'});
 
 %% Join the two matrices and filter out the albums which are missing album titles
-C = outerjoin(means_acoustic_features, means_albums, 'Keys', 'album');
+preprocessed_data = outerjoin(means_acoustic_features, means_albums, 'Keys', {'album', 'artist'});
 
-M = rmmissing(C);
+pruned_data = rmmissing(preprocessed_data);
 
 % Filter for tables with size < 500
-tableA=M(~any(ismissing(M),1),:);
-tableB = sortrows(M,11);
-working_table = tableB(1:10000,:);
+sorted_final_table = sortrows(pruned_data, 'mean_rank');
+% Produces a table with data on 500 albums
+working_table = sorted_final_table(1:500,:);
 
 %% Save final table for future use
 writetable(working_table,'working_table.csv','Delimiter',',');
