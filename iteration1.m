@@ -33,8 +33,8 @@ opts.Delimiter = ",";
 
 % Specify column names and types
 opts.VariableNames = ["id", "song", "album", "artist", "acousticness", "danceability", "duration_ms", "energy", "instrumentalness", "key", "liveness", "loudness", "mode", "speechiness", "tempo", "time_signature", "valence", "album_id", "date"];
-opts.VariableTypes = ["double", "string", "string", "string", "double", "double", "double", "double", "double", "double", "double", "double", "double", "double", "double", "double", "double", "string", "datetime"];
-opts = setvaropts(opts, 19, "InputFormat", "yyyy-MM-dd");
+opts.VariableTypes = ["double", "string", "string", "string", "double", "double", "double", "double", "double", "double", "double", "double", "double", "double", "double", "double", "double", "string", "string"];
+% opts = setvaropts(opts, 19, "InputFormat", "yyyy-MM-dd");
 opts = setvaropts(opts, [3, 4], "WhitespaceRule", "preserve");
 opts = setvaropts(opts, [3, 4], "EmptyFieldRule", "auto");
 opts.ExtraColumnsRule = "ignore";
