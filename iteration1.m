@@ -63,7 +63,7 @@ pruned_data = rmmissing(preprocessed_data);
 % Filter for tables with size < 500
 sorted_final_table = sortrows(pruned_data, 'mean_rank');
 % Produces a table with data on 500 albums
-working_table = sorted_final_table(1:500,:);
+working_table = sorted_final_table(:,:);
 
 %% Save final table for future use
 writetable(working_table,'working_table.csv','Delimiter',',');

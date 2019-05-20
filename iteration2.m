@@ -1,7 +1,9 @@
 %% Generate matrix of scatter plots for each of the features 
 % Top 250 songs by ranking
-tbl = working_table(1:250,:);
+tbl = working_table(:,:);
 
+% Extracting columns containing our features of interest into individual
+% columns for analysis
 rank = table2array(tbl(:,11));
 danceability = table2array(tbl(:,4));
 duration = table2array(tbl(:,5));
@@ -11,20 +13,72 @@ tempo = table2array(tbl(:,7));
 % Column in order of rank danceability duration liveliness tempo as
 % indicated below
 foi = [rank danceability duration liveliness tempo];
+
+% Filter the data down to songs only included in the top 100
+index = find(foi(:,1)>100);
+foi = foi(1:index(1,1),:);
+
+% Find the index in which the different classes occur in the unsplit matrix
+% containing all songs ranked 1 - 100
+index_class_1 = find(foi(:,1) > 25);
+index_class_2 = find(foi(:,1) > 50);
+index_class_3 = find(foi(:,1) > 75);
+
+class_1 = foi(1:index_class_1(1,1) - 1,:);
+class_2 = foi(index_class_1(1,1):index_class_2(1,1) - 1,:);
+class_3 = foi(index_class_2(1,1):index_class_3(1,1) - 1,:);
+class_4 = foi(index_class_3(1,1):end,:);
+
+% Filting the classes for the scatter plots to smaller sections from which
+% trends should be identifiable
+class_1 = class_1(1:50,:);
+class_2 = class_2(1:50,:);
+class_3 = class_3(1:50,:);
+class_4 = class_4(1:50,:);
+
+% Group of songs
 [r1 c1] = size(foi);
 
 % Label names for the axis
-label_names = {'rank', 'danceability', 'duration', 'liveliness', 'tempo'};
+label_names = {'Rank', 'Danceability (nu)', 'Duration (ms)', ...
+    'Liveliness (nu)', 'Tempo (bpm)'};
 
 % Generate the plots for each of the features compared to each other
-for x = 1:c1
-    for y = 1:x
-        subplot(5, 5, 5 * (x - 1) + y);
-        scatter(foi(:,x), foi(:,y), 'b');
+for y = 1:c1
+    for x = 1:y
+        subplot(5, 5, 5 * (y - 1) + x);
+        scatter(class_1(:,y), class_1(:,x), 'r', '*');
         hold on
-        xlabel(label_names{x})
-        ylabel(label_names{y})
+        scatter(class_2(:,y), class_2(:,x), 'b', '.');
+        hold on
+        scatter(class_3(:,y), class_3(:,x), 'g', '+');
+        hold on
+        scatter(class_4(:,y), class_4(:,x), 'y', 'x');
+        xlabel(label_names{y})
+        ylabel(label_names{x})
         hold off
     end
 end
+
+legend('Rank 1 - 25','Rank 25 - 50','Rank 50 - 75','Rank 75 - 100');
+
+class_1 = class_1(:,2:end);
+class_2 = class_2(:,2:end);
+class_3 = class_3(:,2:end);
+class_4 = class_4(:,2:end);
+
+format long
+
+class_1_means = mean(class_1)
+class_2_means = mean(class_2)
+class_3_means = mean(class_3)
+class_4_means = mean(class_4)
+
+class_1_stds = std(class_1)
+class_2_stds = std(class_2)
+class_3_stds = std(class_3)
+class_4_stds = std(class_4)
+
+
+
 
