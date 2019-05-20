@@ -14,12 +14,12 @@ tempo = table2array(tbl(:,7));
 % indicated below
 foi = [rank danceability duration liveliness tempo];
 
-% Filter the data down to songs only included in the top 100
+% Filter the data down to songs only included in the top 100.
 index = find(foi(:,1)>100);
 foi = foi(1:index(1,1),:);
 
 % Find the index in which the different classes occur in the unsplit matrix
-% containing all songs ranked 1 - 100
+% containing all songs ranked 1 - 100.
 index_class_1 = find(foi(:,1) > 25);
 index_class_2 = find(foi(:,1) > 50);
 index_class_3 = find(foi(:,1) > 75);
@@ -30,35 +30,39 @@ class_3 = foi(index_class_2(1,1):index_class_3(1,1) - 1,:);
 class_4 = foi(index_class_3(1,1):end,:);
 
 % Filting the classes for the scatter plots to smaller sections from which
-% trends should be identifiable
-class_1 = class_1(1:50,:);
-class_2 = class_2(1:50,:);
-class_3 = class_3(1:50,:);
-class_4 = class_4(1:50,:);
+% trends should be identifiable.
+class_1_redu = class_1(1:50,:);
+class_2_redu = class_2(1:50,:);
+class_3_redu = class_3(1:50,:);
+class_4_redu = class_4(1:50,:);
 
-% Group of songs
+% Size of the full feature of interest matrix for each song in the working
+% table.
 [r1 c1] = size(foi);
 
 % Label names for the axis
-label_names = {'Rank', 'Danceability (n_u)', 'Duration (ms)', ...
-    'Liveliness (n_u)', 'Tempo (bpm)'};
+label_names = {'Rank', 'Danceability (nu)', 'Duration (ms)', ...
+    'Liveliness (nu)', 'Tempo (bpm)'};
 
-% Generate the plots for each of the features compared to each other
+% Generate the plots for each of the features compared to each other.
 for y = 1:c1
     for x = 1:y
         subplot(5, 5, 5 * (y - 1) + x);
-        scatter(class_1(:,y), class_1(:,x), 'r', '*');
+        scatter(class_1_redu(:,y), class_1_redu(:,x), 'r', '*');
         hold on
-        scatter(class_2(:,y), class_2(:,x), 'b', '.');
+        scatter(class_2_redu(:,y), class_2(:,x), 'b', '.');
         hold on
         scatter(class_3(:,y), class_3(:,x), 'g', '+');
         hold on
-        scatter(class_4(:,y), class_4(:,x), 'y', 'x');
+        scatter(class_4(:,y), class_4(:,x), 'k', 'x');
         xlabel(label_names{y})
         ylabel(label_names{x})
         hold off
     end
 end
+
+legend('Rank 1 - 25','Rank 25 - 50','Rank 50 - 75','Rank 75 - 100');
+
 
 class_1 = class_1(:,2:end);
 class_2 = class_2(:,2:end);
@@ -67,14 +71,17 @@ class_4 = class_4(:,2:end);
 
 format long
 
+% Calculate the mean for each feature in the 4 classes ()
 class_1_means = mean(class_1)
 class_2_means = mean(class_2)
 class_3_means = mean(class_3)
 class_4_means = mean(class_4)
 
-fprintf('My age is %d and my salary is $%.2f\n', prof_age, prof_salary);
+class_1_stds = std(class_1)
+class_2_stds = std(class_2)
+class_3_stds = std(class_3)
+class_4_stds = std(class_4)
 
 
 
-legend('Rank 1 - 25','Rank 25 - 50','Rank 50 - 75','Rank 75 - 100');
 

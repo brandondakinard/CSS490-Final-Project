@@ -47,7 +47,7 @@ acoustic_features = readtable("/acoustic_features.csv", opts);
 clear opts
 
 %% Calculate the means of the albums acoustic features and the albums rank
-modified_acoustic_features = acoustic_features(:,{'album', 'artist', 'danceability', 'duration_ms', 'liveness','tempo'});
+modified_acoustic_features = acoustic_features(:,{'album', 'artist', 'acousticness', 'danceability', 'duration_ms', 'liveness','tempo'});
 
 means_acoustic_features = grpstats(modified_acoustic_features, {'album', 'artist'});
 
@@ -64,6 +64,7 @@ pruned_data = rmmissing(preprocessed_data);
 sorted_final_table = sortrows(pruned_data, 'mean_rank');
 % Produces a table with data on 500 albums
 working_table = sorted_final_table(:,:);
+working_table = [working_table(:,1:2) working_table(:, 4:end)];
 
 %% Save final table for future use
 writetable(working_table,'working_table.csv','Delimiter',',');
