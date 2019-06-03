@@ -15,7 +15,7 @@ tempo = table2array(tbl(:,7));
 foi = [rank danceability duration liveliness tempo];
 
 % Filter the data down to songs only included in the top 100.
-index = find(foi(:,1)>100);
+index = find(foi(:,1) > 100);
 foi = foi(1:index(1,1),:);
 
 % Find the index in which the different classes occur in the unsplit matrix
@@ -48,15 +48,15 @@ label_names = {'Rank', 'Danceability (nu)', 'Duration (ms)', ...
 for y = 1:c1
     for x = 1:y
         subplot(5, 5, 5 * (y - 1) + x);
-        scatter(class_1_redu(:,y), class_1_redu(:,x), 'r', '*');
+        scatter(class_1_redu(:,x), class_1_redu(:,y), 'r', '*');
         hold on
-        scatter(class_2_redu(:,y), class_2_redu(:,x), 'b', '.');
+        scatter(class_2_redu(:,x), class_2_redu(:,y), 'b', '.');
         hold on
-        scatter(class_3_redu(:,y), class_3_redu(:,x), 'g', '+');
+        scatter(class_3_redu(:,x), class_3_redu(:,y), 'g', '+');
         hold on
-        scatter(class_4_redu(:,y), class_4_redu(:,x), 'k', 'x');
-        xlabel(label_names{y})
-        ylabel(label_names{x})
+        scatter(class_4_redu(:,x), class_4_redu(:,y), 'k', 'x');
+        xlabel(label_names{x});
+        ylabel(label_names{y});
         hold off
     end
 end
