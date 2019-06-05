@@ -69,6 +69,7 @@ covs = cov(foi);
 
 % Generate 2D scatter plots of each feature against itself and each of the
 % other features
+figure;
 for y = 1:c1
     for x = 1:y
         subplot(c1,c1,c1 * (y - 1) + x);
@@ -81,6 +82,7 @@ end
 sgtitle('2D Scatter Plots of the Original Features in the Dataset');
 
 % Generate the plots for each of the features compared to each other.
+figure;
 for y = 1:c1
     for x = 1:y
         subplot(5, 5, 5 * (y - 1) + x);
@@ -141,16 +143,26 @@ for i=1:nfeatures
     weight_c2(i) = weightsum2; 
 end 
 
-% Plotting Scree Plots 
+% Plotting Scree Plots
 figure; 
+subplot(1,2,1)
+hold on
 plot(weights2,'x:b'); 
 grid; 
 title('Scree Plot'); 
+xlabel('Principal Component');
+ylabel('Weight');
+hold off
 
-figure; 
+subplot(1,2,2)
+hold on
 plot(weight_c2,'x:r'); 
 grid; 
 title('Scree Plot Cumulative'); 
+xlabel('Principal Component');
+ylabel('Weight');
+hold off
+sgtitle('Scree Plots')
 
 %% Loading Vectors
 for i=1:nfeatures 
@@ -164,61 +176,66 @@ for i=1:nfeatures
     end 
 end 
 
+figure;
 for i=1:nfeatures
-    figure; 
+    subplot(3,2,i)
+    hold on
     bar(Vsquare(:,i),0.5); 
     grid; 
     ymin = min(Vsquare(:,i)) + (min(Vsquare(:,i))/10); 
     ymax = max(Vsquare(:,i)) + (max(Vsquare(:,i))/10); 
-    axis([0 nfeatures + 1 ymin ymax]); 
+    axis([0 nfeatures+1 ymin ymax]); 
     xlabel('Feature index'); 
     ylabel('Importance of feature'); 
-    [chart_title, ERRMSG] = sprintf('Loading Vector %d',i);
+    [chart_title, ERRMSG] = sprintf('Loading Vector %d',i); 
     title(chart_title); 
+    hold off
+end
+sgtitle('Vector Loading Plots');
+
+%% 2D scatter plots (transformed)
+[r2 c2] = size(Ur);
+
+label_names = {'PC1', 'PC2', 'PC3', 'PC4', 'PC5'};
+
+% 2D scatter plots for the classes as dictated by Ur 
+figure;
+for y = 1:c2
+    for x = 1:y 
+        subplot(c2,c2,c2 * (y - 1) + x);
+        scatter(Ur(:,x), Ur(:,y), 'bo', 'filled');
+        xlabel(label_names{x});
+        ylabel(label_names{y});
+    end
 end
 
-% %% 2D scatter plots (transformed)
-% [r2 c2] = size(Ur);
-% 
-% label_names = {'PC1', 'PC2', 'PC3', 'PC4', 'PC5'};
-% 
-% % 2D scatter plots for the classes as dictated by Ur 
-% for y = 1:c2
-%     for x = 1:y 
-%         subplot(c2,c2,c2 * (y - 1) + x);
-%         scatter(Ur(:,x), Ur(:,y), 'bo', 'filled');
-%         xlabel(label_names{x});
-%         ylabel(label_names{y});
-%     end
-% end
-% 
-% sgtitle('2D Scatter Plots of the Principal Components');
-% 
-% %% 3D Scatter Plots
-% % Assign principal components to the variables x,y,z
-% label_names_PC = ["PC1", "PC2", "PC3", "PC4", "PC5"];
-% 
-% % Generate 3D Scatter Plots 
-% for x = 1:size(label_names_PC, 2)
-%     for y = x+1:size(label_names_PC, 2)
-%         for z = y+1:size(label_names_PC, 2)
-%             % 3D scatter plots using PC1, PC2, and PC3 from Ur
-%             figure; 
-%             scatter3(class_1(:,x), class_1(:,y), class_1(:,z), 'r.'); 
-%             hold on; 
-%             scatter3(class_2(:,x), class_2(:,y), class_2(:,z), 'b.');
-%             hold on;
-%             scatter3(class_3(:,x), class_3(:,y), class_3(:,z), 'g.');
-%             hold on;
-%             scatter3(class_4(:,x), class_4(:,y), class_4(:,z), 'k.');
-%             xlabel(x);
-%             ylabel(y);
-%             zlabel(z);
-%             title('3D Scatter Plot of Regular Scores')
-%             legend('Rank 1 - 25','Rank 25 - 50',...
-%                 'Rank 50 - 75','Rank 75 - 100');
-%             hold off;
-%         end
-%     end
-% end
-% 
+sgtitle('2D Scatter Plots of the Principal Components');
+
+%% 3D Scatter Plots
+% Assign principal components to the variables x,y,z
+label_names_PC = ["PC1", "PC2", "PC3", "PC4", "PC5"];
+
+% Generate 3D Scatter Plots 
+for x = 1:size(label_names_PC, 2)
+    for y = x+1:size(label_names_PC, 2)
+        for z = y+1:size(label_names_PC, 2)
+            % 3D scatter plots using PC1, PC2, and PC3 from Ur
+            figure; 
+            scatter3(class_1(:,x), class_1(:,y), class_1(:,z), 'r.'); 
+            hold on; 
+            scatter3(class_2(:,x), class_2(:,y), class_2(:,z), 'b.');
+            hold on;
+            scatter3(class_3(:,x), class_3(:,y), class_3(:,z), 'g.');
+            hold on;
+            scatter3(class_4(:,x), class_4(:,y), class_4(:,z), 'k.');
+            xlabel(x);
+            ylabel(y);
+            zlabel(z);
+            title('3D Scatter Plot of Regular Scores')
+            legend('Rank 1 - 25','Rank 25 - 50',...
+                'Rank 50 - 75','Rank 75 - 100');
+            hold off;
+        end
+    end
+end
+
