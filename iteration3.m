@@ -30,14 +30,16 @@ clear opts
 % Extracting columns containing our features of interest into individual
 % columns for analysis
 rank = table2array(tbl(:,11));
+
+acousticness = table2array(tbl(:,3));
 danceability = table2array(tbl(:,4));
-duration = table2array(tbl(:,5));
 liveliness = table2array(tbl(:,6));
+duration = table2array(tbl(:,5));
 tempo = table2array(tbl(:,7));
 
 % Column in order of rank danceability duration liveliness tempo as
 % indicated below
-foi = [rank danceability duration liveliness tempo];
+foi = [rank acousticness danceability liveliness duration tempo];
 
 % Find the index in which the different classes occur in the unsplit matrix
 % containing all songs ranked 1 - 100.
@@ -50,10 +52,12 @@ class_2 = foi(index_class_1(1,1):index_class_2(1,1) - 1,:);
 class_3 = foi(index_class_2(1,1):index_class_3(1,1) - 1,:);
 class_4 = foi(index_class_3(1,1):end,:);
 
+foi = foi(:,2:end);
+
 %% Create 2D scatter plots of the features within the data set
 % Label names for the axis
-label_names = {'Rank', 'Danceability (nu)', 'Duration (ms)', ...
-    'Liveliness (nu)', 'Tempo (bpm)'};
+label_names = {'Acousticness (nu)', 'Danceability (nu)', ...
+    'Duration (ms)', 'Liveliness (nu)', 'Tempo (bpm)'};
 
 % Calculate the relevant statistics within the numerical values in the
 % datasets
@@ -173,48 +177,48 @@ for i=1:nfeatures
     title(chart_title); 
 end
 
-%% 2D scatter plots (transformed)
-[r2 c2] = size(Ur);
-
-label_names = {'PC1', 'PC2', 'PC3', 'PC4', 'PC5'};
-
-% 2D scatter plots for the classes as dictated by Ur 
-for y = 1:c2
-    for x = 1:y 
-        subplot(c2,c2,c2 * (y - 1) + x);
-        scatter(Ur(:,x), Ur(:,y), 'bo', 'filled');
-        xlabel(label_names{x});
-        ylabel(label_names{y});
-    end
-end
-
-sgtitle('2D Scatter Plots of the Principal Components');
-
-%% 3D Scatter Plots
-% Assign principal components to the variables x,y,z
-label_names_PC = ["PC1", "PC2", "PC3", "PC4", "PC5"];
-
-% Generate 3D Scatter Plots 
-for x = 1:size(label_names_PC, 2)
-    for y = x+1:size(label_names_PC, 2)
-        for z = y+1:size(label_names_PC, 2)
-            % 3D scatter plots using PC1, PC2, and PC3 from Ur
-            figure; 
-            scatter3(class_1(:,x), class_1(:,y), class_1(:,z), 'r.'); 
-            hold on; 
-            scatter3(class_2(:,x), class_2(:,y), class_2(:,z), 'b.');
-            hold on;
-            scatter3(class_3(:,x), class_3(:,y), class_3(:,z), 'g.');
-            hold on;
-            scatter3(class_4(:,x), class_4(:,y), class_4(:,z), 'k.');
-            xlabel(x);
-            ylabel(y);
-            zlabel(z);
-            title('3D Scatter Plot of Regular Scores')
-            legend('Rank 1 - 25','Rank 25 - 50',...
-                'Rank 50 - 75','Rank 75 - 100');
-            hold off;
-        end
-    end
-end
-
+% %% 2D scatter plots (transformed)
+% [r2 c2] = size(Ur);
+% 
+% label_names = {'PC1', 'PC2', 'PC3', 'PC4', 'PC5'};
+% 
+% % 2D scatter plots for the classes as dictated by Ur 
+% for y = 1:c2
+%     for x = 1:y 
+%         subplot(c2,c2,c2 * (y - 1) + x);
+%         scatter(Ur(:,x), Ur(:,y), 'bo', 'filled');
+%         xlabel(label_names{x});
+%         ylabel(label_names{y});
+%     end
+% end
+% 
+% sgtitle('2D Scatter Plots of the Principal Components');
+% 
+% %% 3D Scatter Plots
+% % Assign principal components to the variables x,y,z
+% label_names_PC = ["PC1", "PC2", "PC3", "PC4", "PC5"];
+% 
+% % Generate 3D Scatter Plots 
+% for x = 1:size(label_names_PC, 2)
+%     for y = x+1:size(label_names_PC, 2)
+%         for z = y+1:size(label_names_PC, 2)
+%             % 3D scatter plots using PC1, PC2, and PC3 from Ur
+%             figure; 
+%             scatter3(class_1(:,x), class_1(:,y), class_1(:,z), 'r.'); 
+%             hold on; 
+%             scatter3(class_2(:,x), class_2(:,y), class_2(:,z), 'b.');
+%             hold on;
+%             scatter3(class_3(:,x), class_3(:,y), class_3(:,z), 'g.');
+%             hold on;
+%             scatter3(class_4(:,x), class_4(:,y), class_4(:,z), 'k.');
+%             xlabel(x);
+%             ylabel(y);
+%             zlabel(z);
+%             title('3D Scatter Plot of Regular Scores')
+%             legend('Rank 1 - 25','Rank 25 - 50',...
+%                 'Rank 50 - 75','Rank 75 - 100');
+%             hold off;
+%         end
+%     end
+% end
+% 
