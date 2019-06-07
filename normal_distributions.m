@@ -5,29 +5,29 @@ data = readtable(filename);
 
 adl = data{:,{'mean_acousticness','mean_danceability','mean_liveness'}};
 
-% Class 1 = <=25
-% Class 2 = >25 and <=50
-% Class 3 = >50 and <=75
-% Class 4 = >75
-
-[rows,cols] = size(data);
-
-class1 = table;
-class2 = table;
-class3 = table;
-class4 = table;
-
-for i=1:rows
-    if data{i,11} <= 25
-        class1 = [class1; data(i,:)];
-    elseif data{i,11} > 25 && data{i,11} <= 50
-        class2 = [class2; data(i,:)];
-    elseif data{i,11} > 50 && data{i,11} <= 75
-        class3 = [class3; data(i,:)];
-    else
-        class4 = [class4; data(i,:)];
-    end
-end
+% % Class 1 = <=25
+% % Class 2 = >25 and <=50
+% % Class 3 = >50 and <=75
+% % Class 4 = >75
+% 
+% [rows,cols] = size(data);
+% 
+% class1 = table;
+% class2 = table;
+% class3 = table;
+% class4 = table;
+% 
+% for i=1:rows
+%     if data{i,11} <= 25
+%         class1 = [class1; data(i,:)];
+%     elseif data{i,11} > 25 && data{i,11} <= 50
+%         class2 = [class2; data(i,:)];
+%     elseif data{i,11} > 50 && data{i,11} <= 75
+%         class3 = [class3; data(i,:)];
+%     else
+%         class4 = [class4; data(i,:)];
+%     end
+% end
     
 %% Plot normal distributions of features: Acousticness, Danceability, Liveness
 % Calculate the mean and standard deviation of the feature
@@ -196,61 +196,28 @@ ylabel('Density')
 legend('Class 1','Class 2','Class 3','Class 4')
 hold off
 
-
-%% Plot normal distributions of Loudness
-muloud = mean(class1{:,7});
-stdloud = std(class1{:,7});
-x1 = linspace(muloud - (3 * stdloud), muloud + (3 * stdloud) , 100); 
-y1 = normpdf(x1, muloud, stdloud);
-
-muloud = mean(class2{:,7});
-stdloud = std(class2{:,7});
-x2 = linspace(muloud - (3 * stdloud), muloud + (3 * stdloud) , 100); 
-y2 = normpdf(x2, muloud, stdloud);
-
-muloud = mean(class3{:,7});
-stdloud = std(class3{:,7});
-x3 = linspace(muloud - (3 * stdloud), muloud + (3 * stdloud) , 100); 
-y3 = normpdf(x3, muloud, stdloud);
-
-muloud = mean(class4{:,7});
-stdloud = std(class4{:,7});
-x4 = linspace(muloud - (3 * stdloud), muloud + (3 * stdloud) , 100); 
-y4 = normpdf(x4, muloud, stdloud);
-
-subplot(2,2,3)
-hold on
-plot(x1, y1, 'r')
-plot(x2, y2, 'b')
-plot(x3, y3, 'g')
-plot(x4, y4, 'k')
-title('Normal Distributions of Loudness')
-xlabel('Scale')
-ylabel('Density')
-hold off
-
 %% Plot normal distributions of Tempo
-mutemp = mean(class1{:,8});
-stdtemp = std(class1{:,8});
+mutemp = mean(class1{:,7});
+stdtemp = std(class1{:,7});
 x1 = linspace(mutemp - (3 * stdtemp), mutemp + (3 * stdtemp) , 100); 
 y1 = normpdf(x1, mutemp, stdtemp);
 
-mutemp = mean(class2{:,8});
-stdtemp = std(class2{:,8});
+mutemp = mean(class2{:,7});
+stdtemp = std(class2{:,7});
 x2 = linspace(mutemp - (3 * stdtemp), mutemp + (3 * stdtemp) , 100); 
 y2 = normpdf(x2, mutemp, stdtemp);
 
-mutemp = mean(class3{:,8});
-stdtemp = std(class3{:,8});
+mutemp = mean(class3{:,7});
+stdtemp = std(class3{:,7});
 x3 = linspace(mutemp - (3 * stdtemp), mutemp + (3 * stdtemp) , 100); 
 y3 = normpdf(x3, mutemp, stdtemp);
 
-mutemp = mean(class4{:,8});
-stdtemp = std(class4{:,8});
+mutemp = mean(class4{:,7});
+stdtemp = std(class4{:,7});
 x4 = linspace(mutemp - (3 * stdtemp), mutemp + (3 * stdtemp) , 100); 
 y4 = normpdf(x4, mutemp, stdtemp);
 
-subplot(2,2,4)
+subplot(2,2,3)
 hold on
 plot(x1, y1, 'r')
 plot(x2, y2, 'b')
