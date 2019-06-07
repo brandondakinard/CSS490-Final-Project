@@ -55,10 +55,12 @@ class_4 = foi(index_class_3(1,1):end,:);
 % Reduce the size of the classes to be consistent across all 4 with
 % respects to the smallest class, class_1.
 [r1 c1] = size(class_1);
-class_2 = class_2(1:r1,:);
-class_3 = class_3(1:r1,:);
-class_4 = class_4(1:r1,:);
+class_1 = class_1(1:r1,2:end);
+class_2 = class_2(1:r1,2:end);
+class_3 = class_3(1:r1,2:end);
+class_4 = class_4(1:r1,2:end);
 
+ranks = foi(:,1);
 foi = foi(:,2:end);
 
 %% Create 2D scatter plots of the features within the data set
@@ -108,7 +110,7 @@ end
 
 legend('Rank 1 - 25','Rank 25 - 50','Rank 50 - 75','Rank 75 - 100');
 title_string = ['2D Scatter Plots of the Original Features in the' ...
-    'Dataset with Class Distinction'];
+    ' Dataset with Class Distinction'];
 sgtitle(title_string);
 
 %% Preprocessing the Data
@@ -128,13 +130,35 @@ end
 % Ur will be the transformed dataset  
 % S is covariance matrix (not normalized) 
 [U S V] = svd(X,0); 
-Ur = U*S;                
+Ur = U*S;  
+Ur = [ranks Ur];
 
 % Number of features to use 
 f_to_use = nfeatures;      
 feature_vector = 1:f_to_use; 
 
 r = Ur; 
+
+% Find the index in which the different classes occur in the unsplit matrix
+% containing all songs ranked 1 - 100.
+index_class_1_ur = find(Ur(:,1) > 25);
+index_class_2_ur = find(Ur(:,1) > 50);
+index_class_3_ur = find(Ur(:,1) > 75);
+
+class_1_ur = Ur(1:index_class_1_ur(1,1) - 1,:);
+class_2_ur = Ur(index_class_1_ur(1,1):index_class_2_ur(1,1) - 1,:);
+class_3_ur = Ur(index_class_2_ur(1,1):index_class_3_ur(1,1) - 1,:);
+class_4_ur = Ur(index_class_3_ur(1,1):end,:);
+
+% Reduce the size of the classes to be consistent across all 4 with
+% respects to the smallest class
+[r1 c1] = size(class_1);
+class_1_ur = class_1_ur(1:r1,2:end);
+class_2_ur = class_2_ur(1:r1,2:end);
+class_3_ur = class_3_ur(1:r1,2:end);
+class_4_ur = class_4_ur(1:r1,2:end);
+
+Ur = Ur(:,2:end);
 
 %% Scree Plots
 % Obtain the necessary information for Scree Plots 
@@ -239,6 +263,30 @@ for x = 1:size(label_names_PC, 2)
             ylabel(y);
             zlabel(z);
             title('3D Scatter Plot of Regular Scores')
+            legend('Rank 1 - 25','Rank 25 - 50',...
+                'Rank 50 - 75','Rank 75 - 100');
+            hold off;
+        end
+    end
+end
+
+% Generate 3D Scatter Plots for class data after SVD
+for x = 1:size(label_names_PC, 2)
+    for y = x+1:size(label_names_PC, 2)
+        for z = y+1:size(label_names_PC, 2)
+            % 3D scatter plots using PC1, PC2, and PC3 from Ur
+            figure; 
+            scatter3(class_1_ur(:,x), class_1_ur(:,y), class_1_ur(:,z), 'r.'); 
+            hold on; 
+            scatter3(class_2_ur(:,x), class_2_ur(:,y), class_2_ur(:,z), 'b.');
+            hold on;
+            scatter3(class_3_ur(:,x), class_3_ur(:,y), class_3_ur(:,z), 'g.');
+            hold on;
+            scatter3(class_4_ur(:,x), class_4_ur(:,y), class_4_ur(:,z), 'k.');
+            xlabel(x);
+            ylabel(y);
+            zlabel(z);
+            title('3D Scatter Plot of Regular Scores after SVD')
             legend('Rank 1 - 25','Rank 25 - 50',...
                 'Rank 50 - 75','Rank 75 - 100');
             hold off;
