@@ -54,7 +54,7 @@ class_4 = foi(index_class_3(1,1):end,:);
 
 % Reduce the size of the classes to be consistent across all 4 with
 % respects to the smallest class, class_1.
-[r1 c1] = size(class_1);
+[r1, c1] = size(class_1);
 class_2 = class_2(1:r1,:);
 class_3 = class_3(1:r1,:);
 class_4 = class_4(1:r1,:);
@@ -72,7 +72,7 @@ means = mean(foi);
 stdvs = std(foi);
 covs = cov(foi);
 
-[r1 c1] = size(foi);
+[r1, c1] = size(foi);
 
 % Generate 2D scatter plots of each feature against itself and each of the
 % other features
@@ -114,25 +114,26 @@ sgtitle(title_string);
 %% Preprocessing the Data
 % Define X_original, nfeatures, and nsamples
 X_original = foi;
-[nsamples nfeatures] = size(X_original);
+[nsamples, nfeatures] = size(X_original);
 
-% Mean-center/scale each feature, X is NORMALIZED & MEAN CENTERED  dataset 
-for i=1:nfeatures 
-    for j=1:nsamples 
-        X(j,i) = (means(:,i) - X_original(j,i))/stdvs(:,i); 
-    end 
-end 
+X = zeros(nsamples,nfeatures);
+% Mean-center/scale each feature, X is NORMALIZED & MEAN CENTERED  dataset
+for i=1:nfeatures
+    for j=1:nsamples
+        X(j,i) = (means(:,i) - X_original(j,i))/stdvs(:,i);
+    end
+end
 
 %% Singular Value Decomposition Function
-% X is the original dataset 
-% Ur will be the transformed dataset  
-% S is covariance matrix (not normalized) 
-[U S V] = svd(X,0); 
-Ur = U*S;                
+% X is the original dataset
+% Ur will be the transformed dataset
+% S is covariance matrix (not normalized)
+[U, S, V] = svd(X,0);
+Ur = U*S;
 
-% Number of features to use 
-f_to_use = nfeatures;      
-feature_vector = 1:f_to_use; 
+% Number of features to use
+f_to_use = nfeatures;
+feature_vector = 1:f_to_use;
 
 r = Ur; 
 
@@ -141,6 +142,7 @@ r = Ur;
 % Obtain S^2 (and can also use to normalize S)   
 S2 = S^2; 
 weights2 = zeros(nfeatures,1); 
+weight_c2 = zeros(nfeatures);
 sumS2 = sum(sum(S2)); 
 weightsum2 = 0; 
 
@@ -172,6 +174,7 @@ hold off
 sgtitle('Scree Plots')
 
 %% Loading Vectors
+Vsquare = zeros(nfeatures,nfeatures);
 for i=1:nfeatures 
     for j=1:nfeatures 
         Vsquare(i,j) = V(i,j)^2; 
@@ -201,7 +204,7 @@ end
 sgtitle('Vector Loading Plots');
 
 %% 2D scatter plots (transformed)
-[r2 c2] = size(Ur);
+[r2, c2] = size(Ur);
 
 label_names = {'PC1', 'PC2', 'PC3', 'PC4', 'PC5'};
 
