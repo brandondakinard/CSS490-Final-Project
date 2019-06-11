@@ -54,10 +54,11 @@ class_4 = foi(index_class_3(1,1):end,:);
 
 % Reduce the size of the classes to be consistent across all 4 with
 % respects to the smallest class, class_1.
-[r1, ~] = size(class_1);
-class_2 = class_2(1:r1,:);
-class_3 = class_3(1:r1,:);
-class_4 = class_4(1:r1,:);
+[r1, c1] = size(class_1);
+class_1 = class_1(1:r1,2:c1);
+class_2 = class_2(1:r1,2:c1);
+class_3 = class_3(1:r1,2:c1);
+class_4 = class_4(1:r1,2:c1);
 
 ranks = foi(:,1);
 foi = foi(:,2:end);

@@ -68,7 +68,10 @@ working_table = [working_table(:,1:2) working_table(:, 4:end)];
 preprocessed_albums = rmmissing(means_albums);
 sorted_preprocessed_albums = sortrows(preprocessed_albums, 'artist');
 
-outerjoin(preprocessed_albums, working_table, 'Keys', )
+working_table.Properties.VariableNames = {'Album', 'Artist', ...
+    'Acousticness', 'Danceability', 'Duration', 'Liveness', 'Tempo', ...
+    'Album', 'Artist', 'Group Count', 'Rank'};
+
 
 %% Save final table for future use
 writetable(working_table,'working_table.csv','Delimiter',',');
