@@ -1,4 +1,4 @@
-album_means_acoustic_features,artist_means_acoustic_features,mean_acousticness,mean_danceability,mean_duration_ms,mean_liveness,mean_tempo,album_means_albums,artist_means_albums,GroupCount_means_albums,mean_rank
+Album,Artist,Acousticness,Danceability,Duration,Liveness,Tempo,AlbumDu,ArtistDu,GroupCount,Rank
 "I Am > I Was","21 Savage",0.0463635333333333,0.871733333333333,204345.2,0.177453333333333,126.265066666667,"I Am > I Was","21 Savage",3,1.33333333333333
 "Hoodie SZN","A Boogie Wit da Hoodie",0.23938,0.7559,185234.25,0.111985,122.3075,"Hoodie SZN","A Boogie Wit da Hoodie",3,1.66666666666667
 "Championships","Meek Mill",0.100661157894737,0.658105263157895,219174.473684211,0.258731578947368,114.134578947368,"Championships","Meek Mill",6,3

@@ -68,9 +68,9 @@ working_table = [working_table(:,1:2) working_table(:, 4:end)];
 preprocessed_albums = rmmissing(means_albums);
 sorted_preprocessed_albums = sortrows(preprocessed_albums, 'artist');
 
-working_table.Properties.VariableNames = {'Album', 'Artist', ...
+working_table.Properties.VariableNames = {'album', 'artist', ...
     'Acousticness', 'Danceability', 'Duration', 'Liveness', 'Tempo', ...
-    'Album', 'Artist', 'Group Count', 'Rank'};
+    'AlbumDu', 'ArtistDu', 'GroupCount', 'Rank'};
 
 
 %% Save final table for future use
