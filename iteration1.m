@@ -42,7 +42,7 @@ opts.EmptyLineRule = "read";
 acoustic_features = readtable("/acoustic_features.csv", opts);
 
 %% Clear temporary variables
-clear opts
+clear opts;
 
 %% Calculate the means of the albums acoustic features and the albums rank
 modified_acoustic_features = acoustic_features(:,{'album', 'artist', 'acousticness', 'danceability', 'duration_ms', 'liveness','tempo'});
@@ -63,6 +63,12 @@ sorted_final_table = sortrows(pruned_data, 'mean_rank');
 % Produces a table with data on 500 albums
 working_table = sorted_final_table(:,:);
 working_table = [working_table(:,1:2) working_table(:, 4:end)];
+
+%% Add date to element entries
+preprocessed_albums = rmmissing(means_albums);
+sorted_preprocessed_albums = sortrows(preprocessed_albums, 'artist');
+
+outerjoin(preprocessed_albums, working_table, 'Keys', )
 
 %% Save final table for future use
 writetable(working_table,'working_table.csv','Delimiter',',');

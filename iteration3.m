@@ -136,7 +136,9 @@ Ur = U*S;
 f_to_use = nfeatures;
 feature_vector = 1:f_to_use;
 
-r = Ur; 
+r = Ur;
+
+Ur = [ranks Ur];
 
 % Find the index in which the different classes occur in the unsplit matrix
 % containing all songs ranked 1 - 100.
