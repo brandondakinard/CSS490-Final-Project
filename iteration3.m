@@ -25,7 +25,7 @@ opts.EmptyLineRule = "read";
 tbl = readtable("/working_table.csv", opts);
 
 %% Clear temporary variables
-clear opts
+clear opts;
 
 % Extracting columns containing our features of interest into individual
 % columns for analysis
@@ -96,15 +96,15 @@ for y = 1:c1
     for x = 1:y
         subplot(5, 5, 5 * (y - 1) + x);
         scatter(class_1(:,x), class_1(:,y), 'r', '*');
-        hold on
+        hold on;
         scatter(class_2(:,x), class_2(:,y), 'b', '.');
-        hold on
+        hold on;
         scatter(class_3(:,x), class_3(:,y), 'g', '+');
-        hold on
+        hold on;
         scatter(class_4(:,x), class_4(:,y), 'k', 'x');
-        xlabel(label_names{x})
-        ylabel(label_names{y})
-        hold off
+        xlabel(label_names{x});
+        ylabel(label_names{y});
+        hold off;
     end
 end
 
@@ -179,42 +179,42 @@ end
 
 % Plotting Scree Plots
 figure; 
-subplot(1,2,1)
-hold on
-plot(weights2,'x:b'); 
-grid; 
-title('Scree Plot'); 
+subplot(1,2,1);
+hold on;
+plot(weights2,'x:b');
+grid;
+title('Scree Plot');
 xlabel('Principal Component');
 ylabel('Weight');
-hold off
+hold off;
 
-subplot(1,2,2)
-hold on
-plot(weight_c2,'x:r'); 
-grid; 
-title('Scree Plot Cumulative'); 
+subplot(1,2,2);
+hold on;
+plot(weight_c2,'x:r');
+grid;
+title('Scree Plot Cumulative');
 xlabel('Principal Component');
 ylabel('Weight');
-hold off
-sgtitle('Scree Plots')
+hold off;
+sgtitle('Scree Plots');
 
 %% Loading Vectors
 Vsquare = zeros(nfeatures,nfeatures);
-for i=1:nfeatures 
-    for j=1:nfeatures 
-        Vsquare(i,j) = V(i,j)^2; 
-        if V(i,j)<0 
-            Vsquare(i,j) = Vsquare(i,j)*-1; 
-        else  
-            Vsquare(i,j) = Vsquare(i,j)*1; 
-        end 
-    end 
-end 
+for i=1:nfeatures
+    for j=1:nfeatures
+        Vsquare(i,j) = V(i,j)^2;
+        if V(i,j)<0
+            Vsquare(i,j) = Vsquare(i,j)*-1;
+        else
+            Vsquare(i,j) = Vsquare(i,j)*1;
+        end
+    end
+end
 
 figure;
 for i=1:nfeatures
-    subplot(3,2,i)
-    hold on
+    subplot(3,2,i);
+    hold on;
     bar(Vsquare(:,i),0.5); 
     grid; 
     ymin = min(Vsquare(:,i)) + (min(Vsquare(:,i))/10); 
@@ -224,7 +224,7 @@ for i=1:nfeatures
     ylabel('Importance of feature'); 
     [chart_title, ERRMSG] = sprintf('Loading Vector %d',i); 
     title(chart_title); 
-    hold off
+    hold off;
 end
 sgtitle('Vector Loading Plots');
 
