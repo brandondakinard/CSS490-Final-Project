@@ -179,24 +179,16 @@ end
 
 % Plotting Scree Plots
 figure; 
-subplot(1,2,1);
-hold on;
 plot(weights2,'x:b');
+hold on;
+plot(weight_c2,'x:r');
+hold on;
 grid;
 title('Scree Plot');
 xlabel('Principal Component');
 ylabel('Weight');
+legend('Scree Plot','Scree Plot Cumulative');
 hold off;
-
-subplot(1,2,2);
-hold on;
-plot(weight_c2,'x:r');
-grid;
-title('Scree Plot Cumulative');
-xlabel('Principal Component');
-ylabel('Weight');
-hold off;
-sgtitle('Scree Plots');
 
 %% Loading Vectors
 Vsquare = zeros(nfeatures,nfeatures);
