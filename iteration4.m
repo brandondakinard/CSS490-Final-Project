@@ -22,19 +22,13 @@ foi_with_date = sortrows(foi_with_date, 1);
 
 % Find the index in which the different classes occur in the unsplit matrix
 % containing all song dates.
-index_class_1_foi_with_date = find(foi_with_date(:,1) > 1959 & foi_with_date(:,1) <= 1969);
-index_class_2_foi_with_date = find(foi_with_date(:,1) > 1969 & foi_with_date(:,1) <= 1979);
-index_class_3_foi_with_date = find(foi_with_date(:,1) > 1979 & foi_with_date(:,1) <= 1989);
-index_class_4_foi_with_date = find(foi_with_date(:,1) > 1989 & foi_with_date(:,1) <= 1999);
-index_class_5_foi_with_date = find(foi_with_date(:,1) > 1999 & foi_with_date(:,1) <= 2009);
-index_class_6_foi_with_date = find(foi_with_date(:,1) > 2009 & foi_with_date(:,1) <= 2019);
+index_class_1 = find(foi_with_date(:,1) > 1959 & foi_with_date(:,1) <= 1979);
+index_class_2 = find(foi_with_date(:,1) > 1979 & foi_with_date(:,1) <= 1999);
+index_class_3 = find(foi_with_date(:,1) > 1999 & foi_with_date(:,1) <= 2019);
 
-class_1_foi_with_date = foi_with_date(index_class_1_foi_with_date(1,1):index_class_2_foi_with_date(1,1) - 1,:);
-class_2_foi_with_date = foi_with_date(index_class_2_foi_with_date(1,1):index_class_3_foi_with_date(1,1) - 1,:);
-class_3_foi_with_date = foi_with_date(index_class_3_foi_with_date(1,1):index_class_4_foi_with_date(1,1) - 1,:);
-class_4_foi_with_date = foi_with_date(index_class_4_foi_with_date(1,1):index_class_5_foi_with_date(1,1) - 1,:);
-class_5_foi_with_date = foi_with_date(index_class_5_foi_with_date(1,1):index_class_6_foi_with_date(1,1) - 1,:);
-class_6_foi_with_date = foi_with_date(index_class_6_foi_with_date(1,1):end,:);
+class_1_orig = foi_with_date(index_class_1(1,1):index_class_2(1,1) - 1,:);
+class_2_orig = foi_with_date(index_class_2(1,1):index_class_3(1,1) - 1,:);
+class_3_orig = foi_with_date(index_class_3(1,1):end,:);
 
 
 %% Preprocessing the Data
@@ -77,22 +71,52 @@ Ur = sortrows(Ur, 1);
 
 % Find the index in which the different classes occur in the unsplit matrix
 % containing all song dates.
-index_class_1_ur = find(Ur(:,1) > 1959 & Ur(:,1) <= 1969);
-index_class_2_ur = find(Ur(:,1) > 1969 & Ur(:,1) <= 1979);
-index_class_3_ur = find(Ur(:,1) > 1979 & Ur(:,1) <= 1989);
-index_class_4_ur = find(Ur(:,1) > 1989 & Ur(:,1) <= 1999);
-index_class_5_ur = find(Ur(:,1) > 1999 & Ur(:,1) <= 2009);
-index_class_6_ur = find(Ur(:,1) > 2009 & Ur(:,1) <= 2019);
+index_class_1_ur = find(Ur(:,1) > 1959 & Ur(:,1) <= 1979);
+index_class_2_ur = find(Ur(:,1) > 1979 & Ur(:,1) <= 1999);
+index_class_3_ur = find(Ur(:,1) > 1999 & Ur(:,1) <= 2019);
 
 class_1_ur = Ur(index_class_1_ur(1,1):index_class_2_ur(1,1) - 1,:);
 class_2_ur = Ur(index_class_2_ur(1,1):index_class_3_ur(1,1) - 1,:);
-class_3_ur = Ur(index_class_3_ur(1,1):index_class_4_ur(1,1) - 1,:);
-class_4_ur = Ur(index_class_4_ur(1,1):index_class_5_ur(1,1) - 1,:);
-class_5_ur = Ur(index_class_5_ur(1,1):index_class_6_ur(1,1) - 1,:);
-class_6_ur = Ur(index_class_6_ur(1,1):end,:);
+class_3_ur = Ur(index_class_3_ur(1,1):end,:);
+
+%% Select random sample for original data by class
+sample_size = 500;
+
+% Class 1
+%get the dimensions of your array   
+[s1, f1] = size(class_1_orig); 
+% add another column with a random number 
+for i=1:s1 
+    class_1_orig(i,f1+1)=rand; 
+end 
+% Randomize by sorting the matrix based on the new random column 
+class_1_orig_s1=sortrows(class_1_orig,f1+1); 
+class_1_old = [class_1_orig_s1(1:sample_size,1:f1)];
+
+% Class 2
+%get the dimensions of your array   
+[s2, f2] = size(class_2_orig); 
+% add another column with a random number 
+for i=1:s2 
+    class_2_orig(i,f2+1)=rand; 
+end 
+% Randomize by sorting the matrix based on the new random column 
+class_2_orig_s2=sortrows(class_2_orig,f2+1); 
+class_2_old = [class_2_orig_s2(1:sample_size,1:f2)];
+
+% Class 3
+%get the dimensions of your array   
+[s3, f3] = size(class_3_orig); 
+% add another column with a random number 
+for i=1:s3 
+    class_3_orig(i,f3+1)=rand; 
+end 
+% Randomize by sorting the matrix based on the new random column 
+class_3_orig_s3=sortrows(class_3_orig,f3+1); 
+class_3_old = [class_3_orig_s3(1:sample_size,1:f3)];
+
 
 %% Select random sample for transformed data by class
-sample_size = 100;
 
 % Class 1
 %get the dimensions of your array   
@@ -127,53 +151,51 @@ end
 class_3_ur_s3=sortrows(class_3_ur,f3+1); 
 class_3_new = [class_3_ur_s3(1:sample_size,1:f3)];
 
-% Class 4
-%get the dimensions of your array   
-[s4, f4] = size(class_4_ur); 
-% add another column with a random number 
-for i=1:s4 
-    class_4_ur(i,f4+1)=rand; 
-end 
-% Randomize by sorting the matrix based on the new random column 
-class_4_ur_s4=sortrows(class_4_ur,f4+1); 
-class_4_new = [class_4_ur_s4(1:sample_size,1:f4)];
 
-% Class 5
-%get the dimensions of your array   
-[s5, f5] = size(class_5_ur); 
-% add another column with a random number 
-for i=1:s5 
-    class_5_ur(i,f5+1)=rand; 
-end 
-% Randomize by sorting the matrix based on the new random column 
-class_5_ur_s5=sortrows(class_5_ur,f5+1); 
-class_5_new = [class_5_ur_s5(1:sample_size,1:f5)];
 
-% Class 6
-%get the dimensions of your array   
-[s6, f6] = size(class_6_ur); 
-% add another column with a random number 
-for i=1:s6 
-    class_6_ur(i,f6+1)=rand; 
-end 
-% Randomize by sorting the matrix based on the new random column 
-class_6_ur_s6=sortrows(class_6_ur,f6+1); 
-class_6_new = [class_6_ur_s6(1:sample_size,1:f6)];
-
-%% 2D Scatter Plots of Transformed Features
+%% 2D Scatter Plots of Features
+% Transformed dataset
 [r1, c1] = size(class_1_new); 
 
-% Acoustic, dance
-subplot(6,6,1)
-hold on
-scatter(class_1_new(:,2), class_1_new(:,3),'r', '.')
-scatter(class_2_new(:,2), class_2_new(:,3),'b', '.')
-scatter(class_3_new(:,2), class_3_new(:,3),'g', '.')
-scatter(class_4_new(:,2), class_4_new(:,3),'k', '.')
-scatter(class_5_new(:,2), class_5_new(:,3),'m', '.')
-scatter(class_6_new(:,2), class_6_new(:,3),'c', '.')
-title('Sepal Length vs. Sepal Width')
-xlabel('Sepal Length (cms)')
-ylabel('Sepal Width (cms)')
-hold off
+label_names = {'Acousticness (nu)', 'Danceability (nu)', ...
+    'Liveness (nu)', 'Duration (ms)', 'Tempo (bpm)'};
 
+figure;
+for y = 2:c1
+    for x = 2:y - 1
+        subplot(c1-1, c1-1, (c1-1) * (y - 2) + x);
+        scatter(class_1_new(:,x), class_1_new(:,y), 'r', '+');
+        hold on;
+        scatter(class_2_new(:,x), class_2_new(:,y), 'b', '*');
+        hold on;
+        scatter(class_3_new(:,x), class_3_new(:,y), 'g', '.');
+        xlabel(label_names{x-1});
+        ylabel(label_names{y-1});
+        hold off;
+    end
+end
+sgtitle('2D Scatter Plots of the Transformed Features in the Dataset');
+legend('1960s - 1970s','1980s - 1990s','2000s - 2010s');
+
+% Original dataset
+[r2, c2] = size(class_1_old); 
+
+label_names = {'Acousticness (nu)', 'Danceability (nu)', ...
+    'Liveness (nu)', 'Duration (ms)', 'Tempo (bpm)'};
+
+figure;
+for y = 2:c2
+    for x = 2:y - 1
+        subplot(c2-1, c2-1, (c2-1) * (y - 2) + x);
+        scatter(class_1_old(:,x), class_1_old(:,y), 'r', '+');
+        hold on;
+        scatter(class_2_old(:,x), class_2_old(:,y), 'b', '*');
+        hold on;
+        scatter(class_3_old(:,x), class_3_old(:,y), 'g', '.');
+        xlabel(label_names{x-1});
+        ylabel(label_names{y-1});
+        hold off;
+    end
+end
+sgtitle('2D Scatter Plots of the Original Features in the Dataset');
+legend('1960s - 1970s','1980s - 1990s','2000s - 2010s');
