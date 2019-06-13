@@ -80,8 +80,8 @@ covs = cov(foi);
 % other features
 figure;
 for y = 1:c1
-    for x = 1:y
-        subplot(c1,c1,c1 * (y - 1) + x);
+    for x = 1:y - 1
+        subplot(c1-1, c1-1,(c1-1) * (y - 2) + x);
         scatter(foi(:,x), foi(:,y), 'bo', 'filled');
         xlabel(label_names{x});
         ylabel(label_names{y});
@@ -93,8 +93,8 @@ sgtitle('2D Scatter Plots of the Original Features in the Dataset');
 % Generate the plots for each of the features compared to each other.
 figure;
 for y = 1:c1
-    for x = 1:y
-        subplot(5, 5, 5 * (y - 1) + x);
+    for x = 1:y - 1
+        subplot(c1-1, c1-1, (c1-1) * (y - 2) + x);
         scatter(class_1(:,x), class_1(:,y), 'r', '*');
         hold on;
         scatter(class_2(:,x), class_2(:,y), 'b', '.');
@@ -236,8 +236,8 @@ label_names = {'PC1', 'PC2', 'PC3', 'PC4', 'PC5'};
 % 2D scatter plots for the classes as dictated by Ur 
 figure;
 for y = 1:c2
-    for x = 1:y 
-        subplot(c2,c2,c2 * (y - 1) + x);
+    for x = 1:y-1
+        subplot(c2-1,c2-1,(c2-1) * (y - 2) + x);
         scatter(Ur(:,x), Ur(:,y), 'bo', 'filled');
         xlabel(label_names{x});
         ylabel(label_names{y});
