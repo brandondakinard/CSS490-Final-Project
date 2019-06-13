@@ -263,9 +263,9 @@ for x = 1:size(label_names_PC, 2)
             scatter3(class_3(:,x), class_3(:,y), class_3(:,z), 'g.');
             hold on;
             scatter3(class_4(:,x), class_4(:,y), class_4(:,z), 'k.');
-            xlabel(x);
-            ylabel(y);
-            zlabel(z);
+            xlabel(join(['Feature ', int2str(x)]));
+            ylabel(join(['Feature ', int2str(y)]));
+            zlabel(join(['Feature ', int2str(z)]));
             title('3D Scatter Plot of Regular Scores')
             legend('Rank 1 - 25','Rank 25 - 50',...
                 'Rank 50 - 75','Rank 75 - 100');
@@ -287,10 +287,10 @@ for x = 1:size(label_names_PC, 2)
             scatter3(class_3_ur(:,x), class_3_ur(:,y), class_3_ur(:,z), 'g.');
             hold on;
             scatter3(class_4_ur(:,x), class_4_ur(:,y), class_4_ur(:,z), 'k.');
-            xlabel(x);
-            ylabel(y);
-            zlabel(z);
-            title('3D Scatter Plot of Regular Scores after SVD')
+            xlabel(join(['Feature ', int2str(x)]));
+            ylabel(join(['Feature ', int2str(y)]));
+            zlabel(join(['Feature ', int2str(z)]));
+            title('3D Scatter Plot of Regular Scores from Ur after SVD')
             legend('Rank 1 - 25','Rank 25 - 50',...
                 'Rank 50 - 75','Rank 75 - 100');
             hold off;
