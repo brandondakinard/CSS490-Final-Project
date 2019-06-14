@@ -22,7 +22,7 @@ subsetartistlocation = readtable("/subset_artist_location.csv", opts);
 
 
 %% Clear temporary variables
-clear opts
+clear opts;
 
 % Extracting columns containing our features of interest into individual
 % columns for analysis
@@ -238,3 +238,27 @@ gscatter(X_dat(:,3),X_dat(:,4),y)
 hold on
 plot(sv(:,3),sv(:,4),'ko','MarkerSize',10)
 hold off
+
+% Assign principal components to the variables x,y,z
+label_names_PC = ["PC0", "PC1", "PC2", "PC3", "PC4", "PC5"];
+
+% Generate 3D Scatter Plots for class data after SVD
+for x = 2:size(label_names_PC, 2)
+    for y = x+1:size(label_names_PC, 2)
+        for z = y+1:size(label_names_PC, 2)
+            % 3D scatter plots using PC1, PC2, and PC3 from Ur
+            figure; 
+            scatter3(class_1_ur(:,x), class_1_ur(:,y), class_1_ur(:,z), 'r.'); 
+            hold on; 
+            scatter3(class_2_ur(:,x), class_2_ur(:,y), class_2_ur(:,z), 'b.');
+            hold on;
+            scatter3(class_3_ur(:,x), class_3_ur(:,y), class_3_ur(:,z), 'g.');
+            xlabel(join(['Feature ', int2str(x - 1)]));
+            ylabel(join(['Feature ', int2str(y - 1)]));
+            zlabel(join(['Feature ', int2str(z - 1)]));
+            title('3D Scatter Plot of Regular Scores from Ur after SVD')
+            legend('1960s-1970s','1980s-1990s','2000s-2010s');
+            hold off;
+        end
+    end
+end
