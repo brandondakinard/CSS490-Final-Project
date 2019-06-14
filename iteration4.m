@@ -205,6 +205,8 @@ legend('1960s - 1970s','1980s - 1990s','2000s - 2010s');
 
 label_names = {'Acousticness (nu)', 'Danceability (nu)', ...
     'Liveness (nu)', 'Duration (ms)', 'Tempo (bpm)'};
+label_names_unitless = {'Acousticness', 'Danceability', ...
+    'Liveness', 'Duration', 'Tempo'};
 
 figure;
 for y = 2:c2
@@ -262,6 +264,9 @@ for x = 2:size(label_names_PC, 2)
             xlabel(xl);
             ylabel(yl);
             zlabel(zl);
+            xl = label_names_unitless(x - 1);
+            yl = label_names_unitless(y - 1);
+            zl = label_names_unitless(z - 1);
             title(join([xl, ' vs. ', yl, ' vs. ', zl]));
             hold off;
         end
