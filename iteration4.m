@@ -253,9 +253,9 @@ for x = 2:size(label_names_PC, 2)
             scatter3(class_2_ur(:,x), class_2_ur(:,y), class_2_ur(:,z), 'b.');
             hold on;
             scatter3(class_3_ur(:,x), class_3_ur(:,y), class_3_ur(:,z), 'g.');
-            xlabel(join(['Feature ', int2str(x - 1)]));
-            ylabel(join(['Feature ', int2str(y - 1)]));
-            zlabel(join(['Feature ', int2str(z - 1)]));
+            xlabel(join(['PC', int2str(x - 1)]));
+            ylabel(join(['PC', int2str(y - 1)]));
+            zlabel(join(['PC', int2str(z - 1)]));
             title('3D Scatter Plot of Regular Scores from Ur after SVD')
             legend('1960s-1970s','1980s-1990s','2000s-2010s');
             hold off;
