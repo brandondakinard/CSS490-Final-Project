@@ -113,8 +113,8 @@ for i=1:s1
     class_1_orig(i,f1+1)=rand; 
 end 
 % Randomize by sorting the matrix based on the new random column 
-class_1_orig_s1=sortrows(class_1_orig,f1+1); 
-class_1_old = [class_1_orig_s1(1:sample_size,1:f1)];
+class_1_orig_s1 = sortrows(class_1_orig,f1+1); 
+class_1_old = class_1_orig_s1(1:sample_size,1:f1);
 
 % Class 2
 %get the dimensions of your array   
@@ -124,8 +124,8 @@ for i=1:s2
     class_2_orig(i,f2+1)=rand; 
 end 
 % Randomize by sorting the matrix based on the new random column 
-class_2_orig_s2=sortrows(class_2_orig,f2+1); 
-class_2_old = [class_2_orig_s2(1:sample_size,1:f2)];
+class_2_orig_s2 = sortrows(class_2_orig,f2+1); 
+class_2_old = class_2_orig_s2(1:sample_size,1:f2);
 
 % Class 3
 %get the dimensions of your array   
@@ -135,8 +135,8 @@ for i=1:s3
     class_3_orig(i,f3+1)=rand; 
 end 
 % Randomize by sorting the matrix based on the new random column 
-class_3_orig_s3=sortrows(class_3_orig,f3+1); 
-class_3_old = [class_3_orig_s3(1:sample_size,1:f3)];
+class_3_orig_s3 = sortrows(class_3_orig,f3+1); 
+class_3_old = class_3_orig_s3(1:sample_size,1:f3);
 
 
 %% Select random sample for transformed data by class
@@ -149,8 +149,8 @@ for i=1:s1
     class_1_ur(i,f1+1)=rand; 
 end 
 % Randomize by sorting the matrix based on the new random column 
-class_1_ur_s1=sortrows(class_1_ur,f1+1); 
-class_1_new = [class_1_ur_s1(1:sample_size,1:f1)];
+class_1_ur_s1 = sortrows(class_1_ur,f1+1); 
+class_1_new = class_1_ur_s1(1:sample_size,1:f1);
 
 % Class 2
 %get the dimensions of your array   
@@ -160,8 +160,8 @@ for i=1:s2
     class_2_ur(i,f2+1)=rand; 
 end 
 % Randomize by sorting the matrix based on the new random column 
-class_2_ur_s2=sortrows(class_2_ur,f2+1); 
-class_2_new = [class_2_ur_s2(1:sample_size,1:f2)];
+class_2_ur_s2 = sortrows(class_2_ur,f2+1); 
+class_2_new = class_2_ur_s2(1:sample_size,1:f2);
 
 % Class 3
 %get the dimensions of your array   
@@ -171,8 +171,8 @@ for i=1:s3
     class_3_ur(i,f3+1)=rand; 
 end 
 % Randomize by sorting the matrix based on the new random column 
-class_3_ur_s3=sortrows(class_3_ur,f3+1); 
-class_3_new = [class_3_ur_s3(1:sample_size,1:f3)];
+class_3_ur_s3 = sortrows(class_3_ur,f3+1); 
+class_3_new = class_3_ur_s3(1:sample_size,1:f3);
 
 
 
@@ -233,32 +233,39 @@ SVMModel = fitcsvm(X_dat,y);
 classOrder = SVMModel.ClassNames;
 
 sv = SVMModel.SupportVectors;
-figure
-gscatter(X_dat(:,3),X_dat(:,4),y)
-hold on
-plot(sv(:,3),sv(:,4),'ko','MarkerSize',10)
-hold off
+figure;
+gscatter(X_dat(:,3),X_dat(:,4),y);
+hold on;
+plot(sv(:,3),sv(:,4),'ko','MarkerSize',10);
+hold off;
 
 % Assign principal components to the variables x,y,z
 label_names_PC = ["PC0", "PC1", "PC2", "PC3", "PC4", "PC5"];
 
+count = 0;
+figure;
 % Generate 3D Scatter Plots for class data after SVD
 for x = 2:size(label_names_PC, 2)
     for y = x+1:size(label_names_PC, 2)
         for z = y+1:size(label_names_PC, 2)
             % 3D scatter plots using PC1, PC2, and PC3 from Ur
-            figure; 
-            scatter3(class_1_ur(:,x), class_1_ur(:,y), class_1_ur(:,z), 'r.'); 
+            count = count + 1;
+            subplot(4,3,count);
+            scatter3(class_1_ur(:,x), class_1_ur(:,y), class_1_ur(:,z), 'r', '+'); 
             hold on; 
-            scatter3(class_2_ur(:,x), class_2_ur(:,y), class_2_ur(:,z), 'b.');
+            scatter3(class_2_ur(:,x), class_2_ur(:,y), class_2_ur(:,z), 'b', '*');
             hold on;
-            scatter3(class_3_ur(:,x), class_3_ur(:,y), class_3_ur(:,z), 'g.');
-            xlabel(join(['PC', int2str(x - 1)]));
-            ylabel(join(['PC', int2str(y - 1)]));
-            zlabel(join(['PC', int2str(z - 1)]));
-            title('3D Scatter Plot of Regular Scores from Ur after SVD')
-            legend('1960s-1970s','1980s-1990s','2000s-2010s');
+            scatter3(class_3_ur(:,x), class_3_ur(:,y), class_3_ur(:,z), 'g', '.');
+            xl = join(['PC', int2str(x - 1)]);
+            yl = join(['PC', int2str(y - 1)]);
+            zl = join(['PC', int2str(z - 1)]);
+            xlabel(xl);
+            ylabel(yl);
+            zlabel(zl);
+            title(join([xl, ' vs. ', yl, ' vs. ', zl]));
             hold off;
         end
     end
 end
+sgtitle('3D Scatter Plots of Regular Scores from Ur after SVD');
+legend('1960s-1970s','1980s-1990s','2000s-2010s');
