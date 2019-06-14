@@ -186,7 +186,7 @@ label_names = {'Acousticness (nu)', 'Danceability (nu)', ...
 figure;
 for y = 2:c1
     for x = 2:y - 1
-        subplot(c1-1, c1-1, (c1-1) * (y - 2) + x);
+        subplot(c1-2, c1-2, (c1-2) * (y - 3) + (x-1));
         scatter(class_1_new(:,x), class_1_new(:,y), 'r', '+');
         hold on;
         scatter(class_2_new(:,x), class_2_new(:,y), 'b', '*');
@@ -209,7 +209,7 @@ label_names = {'Acousticness (nu)', 'Danceability (nu)', ...
 figure;
 for y = 2:c2
     for x = 2:y - 1
-        subplot(c2-1, c2-1, (c2-1) * (y - 2) + x);
+        subplot(c2-2, c2-2, (c2-2) * (y - 3) + (x-1));
         scatter(class_1_old(:,x), class_1_old(:,y), 'r', '+');
         hold on;
         scatter(class_2_old(:,x), class_2_old(:,y), 'b', '*');
@@ -230,7 +230,7 @@ X_dat = [class_1_old_svm; class_2_old_svm];
 y = X_dat(1:size(X_dat,1),1);
 SVMModel = fitcsvm(X_dat,y);
 
-classOrder = SVMModel.ClassNames
+classOrder = SVMModel.ClassNames;
 
 sv = SVMModel.SupportVectors;
 figure
