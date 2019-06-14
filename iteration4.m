@@ -244,6 +244,34 @@ label_names_PC = ["PC0", "PC1", "PC2", "PC3", "PC4", "PC5"];
 
 count = 0;
 figure;
+% Generate 3D Scatter Plots for class data before SVD
+for x = 2:size(label_names_PC, 2)
+    for y = x+1:size(label_names_PC, 2)
+        for z = y+1:size(label_names_PC, 2)
+            % 3D scatter plots using PC1, PC2, and PC3 from Ur
+            count = count + 1;
+            subplot(4,3,count);
+            scatter3(class_1_orig(:,x), class_1_orig(:,y), class_1_orig(:,z), 'r', '+'); 
+            hold on; 
+            scatter3(class_2_orig(:,x), class_2_orig(:,y), class_2_orig(:,z), 'b', '*');
+            hold on;
+            scatter3(class_3_orig(:,x), class_3_orig(:,y), class_3_orig(:,z), 'g', '.');
+            xl = label_names(x - 1);
+            yl = label_names(y - 1);
+            zl = label_names(z - 1);
+            xlabel(xl);
+            ylabel(yl);
+            zlabel(zl);
+            title(join([xl, ' vs. ', yl, ' vs. ', zl]));
+            hold off;
+        end
+    end
+end
+sgtitle('3D Scatter Plots of Untransformed Data');
+legend('1960s-1970s','1980s-1990s','2000s-2010s');
+
+count = 0;
+figure;
 % Generate 3D Scatter Plots for class data after SVD
 for x = 2:size(label_names_PC, 2)
     for y = x+1:size(label_names_PC, 2)
