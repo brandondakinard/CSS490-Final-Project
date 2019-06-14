@@ -1,6 +1,29 @@
 % Import the data
 tbl = readtable("working_table_updated.csv");
 
+
+%% Setup the Import Options
+opts = delimitedTextImportOptions("NumVariables", 5);
+
+% Specify range and delimiter
+opts.DataLines = [2, Inf];
+opts.Delimiter = "<SEP>";
+
+% Specify column names and types
+opts.VariableNames = ["id", "longitude", "latitude", "artist", "city"];
+opts.VariableTypes = ["string", "double", "double", "string", "string"];
+opts = setvaropts(opts, [1, 4, 5], "WhitespaceRule", "preserve");
+opts = setvaropts(opts, [1, 4, 5], "EmptyFieldRule", "auto");
+opts.ExtraColumnsRule = "ignore";
+opts.EmptyLineRule = "read";
+
+% Import the data
+subsetartistlocation = readtable("/subset_artist_location.csv", opts);
+
+
+%% Clear temporary variables
+clear opts
+
 % Extracting columns containing our features of interest into individual
 % columns for analysis
 acousticness = table2array(tbl(:,3));
@@ -199,3 +222,20 @@ for y = 2:c2
 end
 sgtitle('2D Scatter Plots of the Original Features in the Dataset');
 legend('1960s - 1970s','1980s - 1990s','2000s - 2010s');
+
+% % SVM classifier
+% class_1_old_svm = [ones([size(class_1_old,1),1]) class_1_old];
+% class_2_old_svm = [(ones([size(class_2_old,1),1]) * 2) class_2_old];
+% X_dat = [class_1_old_svm; class_2_old_svm];
+% y = X_dat(1:size(X_dat,1),1);
+% SVMModel = fitcsvm(X_dat,y);
+% 
+% classOrder = SVMModel.ClassNames
+% 
+% sv = SVMModel.SupportVectors;
+% figure
+% gscatter(X_dat(:,1),X_dat(:,2),y)
+% hold on
+% plot(sv(:,1),sv(:,2),'ko','MarkerSize',10)
+% legend('versicolor','virginica','Support Vector')
+% hold off
