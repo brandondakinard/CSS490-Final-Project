@@ -223,19 +223,18 @@ end
 sgtitle('2D Scatter Plots of the Original Features in the Dataset');
 legend('1960s - 1970s','1980s - 1990s','2000s - 2010s');
 
-% % SVM classifier
-% class_1_old_svm = [ones([size(class_1_old,1),1]) class_1_old];
-% class_2_old_svm = [(ones([size(class_2_old,1),1]) * 2) class_2_old];
-% X_dat = [class_1_old_svm; class_2_old_svm];
-% y = X_dat(1:size(X_dat,1),1);
-% SVMModel = fitcsvm(X_dat,y);
-% 
-% classOrder = SVMModel.ClassNames
-% 
-% sv = SVMModel.SupportVectors;
-% figure
-% gscatter(X_dat(:,1),X_dat(:,2),y)
-% hold on
-% plot(sv(:,1),sv(:,2),'ko','MarkerSize',10)
-% legend('versicolor','virginica','Support Vector')
-% hold off
+%% SVM classifier
+class_1_old_svm = [ones([size(class_1_old,1),1]) class_1_old];
+class_2_old_svm = [(ones([size(class_2_old,1),1]) * 2) class_2_old];
+X_dat = [class_1_old_svm; class_2_old_svm];
+y = X_dat(1:size(X_dat,1),1);
+SVMModel = fitcsvm(X_dat,y);
+
+classOrder = SVMModel.ClassNames
+
+sv = SVMModel.SupportVectors;
+figure
+gscatter(X_dat(:,3),X_dat(:,4),y)
+hold on
+plot(sv(:,3),sv(:,4),'ko','MarkerSize',10)
+hold off
